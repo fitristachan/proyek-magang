@@ -4,14 +4,21 @@
 </ul>
 
 <!-- Add New Alternative button -->
-<button id="add-new-button">Add New Alternative</button>
+<select name="alternatives-selector" id="alternatives-selector" class="w-full mr-2" onchange="toggleNewAlternative(this)">
+    <option value="" disabled selected>Select an alternative or create a new one</option>
+    <option value="NewItem">Add New Item</option>
+    <option value="Alt1">Alt A</option>
+</select>
 
 <!-- New alternative input (hidden by default) -->
 <div id="new-alternative-container" style="display: none;">
     <input type="text" id="alternative-name-input" placeholder="Alternative Name">
-    <input type="number" id="alternative-criteria-input" placeholder="Criteria Score">
-    <button id="add-alternative-button">Add Alternative</button>
+    <input type="number" id="alternative-criteria-salary" placeholder="Bayaran (Per Bulan)">
+    <input type="number" id="alternative-criteria-distance" placeholder="Perkiraan Jarak">
+    <input type="number" id="alternative-criteria-workhour" placeholder="Jam Kerja per Hari">
+    <input type="number" id="alternative-criteria-transportfee" placeholder="Perkiraan ongkos transportasi">
 </div>
+<button id="add-alternative-button">Add Alternative</button>
 
 <!-- Submit button -->
 <button id="submit-button">Submit</button>
@@ -19,60 +26,93 @@
 <!-- JavaScript code -->
 <script>
     // Get DOM elements
-    const addNewButton = document.getElementById('add-new-button');
     const newAlternativeContainer = document.getElementById('new-alternative-container');
     const alternativeNameInput = document.getElementById('alternative-name-input');
-    const alternativeCriteriaInput = document.getElementById('alternative-criteria-input');
+    const alternativeCriteriaSalary = document.getElementById('alternative-criteria-salary');
+    const alternativeCriteriaDistance = document.getElementById('alternative-criteria-distance');
+    const alternativeCriteriaWorkhour = document.getElementById('alternative-criteria-workhour');
+    const alternativeCriteriaTransport= document.getElementById('alternative-criteria-transportfee');
     const alternativesList = document.getElementById('alternatives-list');
+    const selectElem = document.getElementById('alternatives-selector');
 
-    // Show/hide new alternative container
-    addNewButton.addEventListener('click', () => {
-        newAlternativeContainer.style.display = 'block';
-    });
+    function toggleNewAlternative(selectElement) {
+        if(selectElement.value == 'NewItem'){
+            newAlternativeContainer.style.display = 'block';
+        }else{
+            newAlternativeContainer.style.display = 'none';
+        }
+    }
+
+    const altDatas = {
+        newAlts: [
+        ],
+        existingAlts:[
+
+        ]
+    }
 
     // Add new alternative to the list
     document.getElementById('add-alternative-button').addEventListener('click', () => {
-        const alternativeName = alternativeNameInput.value;
-        const alternativeCriteria = alternativeCriteriaInput.value;
+        if(selectElem.value == 'NewItem'){
+            const altName = alternativeNameInput.value;
+            const altSalary = alternativeCriteriaSalary.value;
+            const altDistance = alternativeCriteriaDistance.value;
+            const altWorkhour = alternativeCriteriaWorkhour.value;
+            const altTransport = alternativeCriteriaTransport.value;
+            altDatas.newAlts.push({name: altName, salary: altSalary, distance: altDistance, workhour:altWorkhour, transport:altTransport})
 
-        // Perform validation here if needed
 
-        // Add the new alternative to the list
-        const newAlternative = document.createElement('li');
-        newAlternative.innerText = `${alternativeName} - ${alternativeCriteria}`;
-        alternativesList.appendChild(newAlternative);
 
-        // Clear the input fields
-        alternativeNameInput.value = '';
-        alternativeCriteriaInput.value = '';
+            // Add the new alternative to the list
+            const newAlt = document.createElement('li');
+            newAlt.innerText = 
+            `~${altName}~
+            Pendapatan: Rp${altSalary}
+            Jarak: ${altDistance} km
+            Jam Kerja: ${altWorkhour} jam per hari
+            Ongkos Transportasi: Rp${altSalary}
+            `;
+            alternativesList.appendChild(newAlt);
 
-        // Hide the new alternative container
-        newAlternativeContainer.style.display = 'none';
+            // Clear the input fields
+            alternativeNameInput.value = "";
+            alternativeCriteriaSalary.value = "";
+            alternativeCriteriaDistance.value = "";
+            alternativeCriteriaWorkhour.value = "";
+            alternativeCriteriaTransport.value = "";
+
+        }
 
         
     });
     document.getElementById('submit-button').addEventListener('click', () => {
-        const alternatives = [];
-
-        // Collect alternatives from the list
-        const alternativeItems = document.querySelectorAll('#alternatives-list li');
-        alternativeItems.forEach(item => {
-            const [name, criteria] = item.innerText.split(' - ');
-            alternatives.push({ name, criteria });
-        });
-
-        // Send the data to the server-side for further processing
-        fetch('/alternatives/submit', {
+        alert(JSON.stringify(altDatas));
+        fetch('/spk/submit', {
             method: 'POST',
-            body: JSON.stringify({ alternatives }),
             headers: {
                 'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Redirect to the next page with the submitted data
-            window.location.href = '/inputspk?data=' + encodeURIComponent(JSON.stringify(data));
-        });
+            },
+            body: JSON.stringify(altDatas)
+            })
+            .then(response => {
+                // Handle the response from the server
+                if (response.ok) {
+                    alert("Server Received Data!");
+                    response.json().then(
+                        data=>{
+                            alert(data.data)
+                            window.location.href = "spk/result/"+data.calcID;
+                        }
+                        
+                    );
+                    
+                } else {
+                throw new Error('Error: ' + response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error)
+            });
     });
 </script>

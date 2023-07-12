@@ -114,6 +114,12 @@ class CreateInitialTables extends Migration
 
         // Create AlternativeBind table
         $this->forge->addField([
+            'id' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => true,
+                'auto_increment' => true,
+            ],
             'calculation_id' => [
                 'type' => 'INT',
                 'constraint' => 5,
@@ -129,6 +135,7 @@ class CreateInitialTables extends Migration
                 'default' => null,
             ],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addKey(['calculation_id', 'internship_id']);
         $this->forge->addForeignKey('calculation_id', 'calculations', 'calculation_id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('internship_id', 'internships', 'internship_id', 'CASCADE', 'CASCADE');
