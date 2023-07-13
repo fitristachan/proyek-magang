@@ -1,31 +1,64 @@
-<h2>Alternatives:</h2>
-<ul id="alternatives-list">
-    <!-- Existing alternatives will be dynamically added here -->
-</ul>
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto p-8">
+    <h1 class="text-center text-2xl font-bold leading-9 text-gray-900 mb-8">Alternatives:</h1>
+    <table id="alternatives-list" class="mb-4 table-auto w-full bg-white shadow rounded-lg hidden">
+        <thead class="border border-gray-300">
+            <th class="px-4 py-2 bg-indigo-600 text-white">Nama</th>
+            <th class="px-4 py-2 bg-indigo-600 text-white">Bayaran</th>
+            <th class="px-4 py-2 bg-indigo-600 text-white">Jarak</th>
+            <th class="px-4 py-2 bg-indigo-600 text-white">Durasi Kerja (per hari)</th>
+            <th class="px-4 py-2 bg-indigo-600 text-white">Biaya Transport</th>
+        </thead>
+    </table>
 
-<!-- Add New Alternative button -->
-<select name="alternatives-selector" id="alternatives-selector" class="w-full mr-2" onchange="toggleNewAlternative(this)">
-    <option value="" disabled selected>Select an alternative or create a new one</option>
-    <option value="NewItem">Add New Item</option>
-    <option value="Alt1">Alt A</option>
-</select>
+    <!-- Add New Alternative button -->
+    <select name="alternatives-selector" id="alternatives-selector" class="w-full mr-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" onchange="toggleNewAlternative(this)">
+        <option value="" disabled selected>Select an alternative or create a new one</option>
+        <option value="NewItem">Add New Item</option>
+        <option value="Alt1">Alt A</option>
+    </select>
 
-<!-- New alternative input (hidden by default) -->
-<div id="new-alternative-container" style="display: none;">
-    <input type="text" id="alternative-name-input" placeholder="Alternative Name">
-    <input type="number" id="alternative-criteria-salary" placeholder="Bayaran (Per Bulan)">
-    <input type="number" id="alternative-criteria-distance" placeholder="Perkiraan Jarak">
-    <input type="number" id="alternative-criteria-workhour" placeholder="Jam Kerja per Hari">
-    <input type="number" id="alternative-criteria-transportfee" placeholder="Perkiraan ongkos transportasi">
+    <!-- New alternative input (hidden by default) -->
+    <div id="new-alternative-container" class="hidden">
+        
+        <div class="mt-2">
+            <input type="text" id="alternative-name-input" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Alternative Name">
+        </div>
+        
+        <div class="mt-1"> 
+        <input type="number" id="alternative-criteria-salary" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Bayaran (Per Bulan)">
+        </div>
+        <div class="mt-1">
+        <input type="number" id="alternative-criteria-distance" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"placeholder="Perkiraan Jarak">
+        </div>
+        <div class="mt-1">
+        <input type="number" id="alternative-criteria-workhour" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"placeholder="Jam Kerja per Hari">
+        </div>
+        <div class="mt-1">
+        <input type="number" id="alternative-criteria-transportfee" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"placeholder="Perkiraan ongkos transportasi">
+        </div>
+    
+    </div>
+    <div class="mt-4">
+    <button id="add-alternative-button" class="justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Alternative</button>
+
+    <!-- Submit button -->
+    <button id="submit-button" class= "justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+    </div>
 </div>
-<button id="add-alternative-button">Add Alternative</button>
-
-<!-- Submit button -->
-<button id="submit-button">Submit</button>
-
+</body>
+</html>
 <!-- JavaScript code -->
 <script>
     // Get DOM elements
+    var inputted = false;
     const newAlternativeContainer = document.getElementById('new-alternative-container');
     const alternativeNameInput = document.getElementById('alternative-name-input');
     const alternativeCriteriaSalary = document.getElementById('alternative-criteria-salary');
@@ -37,9 +70,9 @@
 
     function toggleNewAlternative(selectElement) {
         if(selectElement.value == 'NewItem'){
-            newAlternativeContainer.style.display = 'block';
+            newAlternativeContainer.classList.remove('hidden');
         }else{
-            newAlternativeContainer.style.display = 'none';
+            newAlternativeContainer.classList.add('hidden');
         }
     }
 
@@ -53,24 +86,28 @@
 
     // Add new alternative to the list
     document.getElementById('add-alternative-button').addEventListener('click', () => {
+        if(inputted == false){
+            alternativesList.classList.remove('hidden');
+            inputted = true;
+        }
         if(selectElem.value == 'NewItem'){
             const altName = alternativeNameInput.value;
-            const altSalary = alternativeCriteriaSalary.value;
-            const altDistance = alternativeCriteriaDistance.value;
-            const altWorkhour = alternativeCriteriaWorkhour.value;
-            const altTransport = alternativeCriteriaTransport.value;
+            const altSalary = alternativeCriteriaSalary.value == ""? 0: alternativeCriteriaSalary.value;
+            const altDistance = alternativeCriteriaDistance.value == ""? 0: alternativeCriteriaDistance.value;
+            const altWorkhour = alternativeCriteriaWorkhour.value == ""? 0: alternativeCriteriaWorkhour.value;
+            const altTransport = alternativeCriteriaTransport.value == ""? 0: alternativeCriteriaTransport.value;
             altDatas.newAlts.push({name: altName, salary: altSalary, distance: altDistance, workhour:altWorkhour, transport:altTransport})
 
 
 
             // Add the new alternative to the list
-            const newAlt = document.createElement('li');
-            newAlt.innerText = 
-            `~${altName}~
-            Pendapatan: Rp${altSalary}
-            Jarak: ${altDistance} km
-            Jam Kerja: ${altWorkhour} jam per hari
-            Ongkos Transportasi: Rp${altSalary}
+            const newAlt = document.createElement('tr');
+            newAlt.innerHTML = 
+            `<td>${altName}</td>
+            <td>Rp${altSalary}</td>
+            <td>${altDistance} km</td>
+            <td>${altWorkhour} jam per hari</td>
+            <td>Rp${altTransport}</td>
             `;
             alternativesList.appendChild(newAlt);
 
@@ -82,6 +119,7 @@
             alternativeCriteriaTransport.value = "";
 
         }
+        selectElement.value = '';
 
         
     });
