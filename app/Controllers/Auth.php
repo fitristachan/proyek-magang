@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\usersModel;
 
 class Auth extends BaseController
@@ -32,9 +33,9 @@ class Auth extends BaseController
         $nim = $this->request->getVar('nim');
         $password = $this->request->getVar('password');
         $dataUser = $this->users_model->where('nim' , $nim)->first();
-        //$pass = $dataUser['password'];
-        dd($dataUser);
+        //dd(password_hash('123', PASSWORD_BCRYPT));
         if ($dataUser) {
+            $pass = $dataUser['password'];
             $authenticatePassword = password_verify($password, $pass);
             if ($authenticatePassword) {
                 $ses_data=[
@@ -45,16 +46,14 @@ class Auth extends BaseController
                 ];
                 $session->set($ses_data);
                 return redirect()->to('/home/beranda');
-            } else {
+            } else if ($authenticatePassword == FALSE) {
                 session()->setFlashdata('error', 'Wrong password');
                 return redirect()->to('/auth/index');
-            }   
-        }else if ($dataUser == FALSE && password_verify($password, $pass) == FALSE) {
-            session()->setFlashdata('error', 'NIM didnt exists and Wrong password');
-            return redirect()->to('/auth/index');
-        }else {
+            } 
+        }else if ($dataUser == FALSE) {
                 session()->setFlashdata('error', 'NIM didnt exists');
                 return redirect()->to('/auth/index');
         } 
     }
 }
+?>
