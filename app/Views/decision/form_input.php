@@ -101,7 +101,7 @@
                     response.json().then(
                         data=>{
                             alert(data.data)
-                            window.location.href = "spk/result/"+data.calcID;
+                            window.location.href = "/result/"+data.calcID;
                         }
                         
                     );
