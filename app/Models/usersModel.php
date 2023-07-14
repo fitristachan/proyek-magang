@@ -12,4 +12,11 @@ class usersModel extends Model
     // allowed fields to manage
     protected $allowedFields = ['nim', 'password', 'role_id'];
 
+
+    function getUsersRoles(){
+        $builder = $this->db->table('users');
+        $builder->join('roles', 'roles.role_id = users.role_id');
+        $query = $builder->get();
+        return $query->getResult();
+    }
 }
