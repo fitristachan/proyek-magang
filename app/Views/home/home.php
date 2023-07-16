@@ -4,8 +4,8 @@
       <div class="mx-auto max-w-3xl pt-20 pb-32 sm:pt-48 sm:pb-40">
         <div>
           <div>
-            <h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-6xl"><?= $title; ?></h1>
-            <p class="mt-6 text-lg leading-8 text-gray-600 sm:text-center"><?= $description; ?></p>
+            <h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-6xl"><?= $title; ?>SPK Magang</h1>
+            <p class="mt-6 text-lg leading-8 text-gray-600 sm:text-center"><?= $description; ?>Website SPK Magang merupakan website yang menggunakan sistem pendukung keputusan dengan metode MOORA. Website ini juga dapat membantu mahasiswa untuk memilih tempat magang yang sesuai dengan kriteria yang ada.</p>
             <div class="mt-8 flex gap-x-4 sm:justify-center">
               <a href="<?= base_url('product'); ?>" class="inline-block rounded-lg bg-indigo-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-indigo-600 hover:bg-indigo-700 hover:ring-indigo-700">
                 Go To Product
