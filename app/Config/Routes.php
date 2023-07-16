@@ -34,6 +34,11 @@ $routes->get("/spk/", "SPK::index");
 $routes->post('/spk/submit', 'SPK::submit_alternative');
 $routes->get('/nextpage', 'SPK::index');
 $routes->get('/spk/result/(:num)', 'SPK::result/$1');
+$routes->get('/generate-pdf', 'SPK::generatePDF');
+
+
+
+
 
 /*
  * --------------------------------------------------------------------
