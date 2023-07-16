@@ -10,9 +10,7 @@
         }
 </script>
 
-
 <!-- toast-->
-
 <?php if (!empty($session->getFlashdata('success'))) : ?>
  <!--success message-->
  <div x-data="{ nofifiction: true }" class="fixed bottom-2 right-2">
@@ -26,7 +24,7 @@
         <p class="ml-3 text-sm font-bold text-green-600"><?php echo $session->getFlashdata('success'); ?></p>
     </div>
     <span @click="nofifiction=false;" class="inline-flex items-center cursor-pointer ml-4">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </span>
@@ -47,7 +45,7 @@
         <p class="ml-3 text-sm font-bold text-yellow-600"><?php echo $session->getFlashdata('warning'); ?></p>
     </div>
     <span @click="nofifiction=false;" class="inline-flex items-center cursor-pointer ml-4">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </span>
@@ -68,7 +66,7 @@
         <p class="ml-3 text-sm font-bold text-blue-600"><?php echo $session->getFlashdata('info'); ?></p>
     </div>
     <span @click="nofifiction=false;" class="inline-flex items-center cursor-pointer ml-4">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </span>
@@ -88,14 +86,12 @@
         <p class="ml-3 text-sm font-bold text-red-600"><?php echo $session->getFlashdata('error'); ?></p>
     </div>
     <span @click="nofifiction=false;" class="inline-flex items-center cursor-pointer ml-4">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </span>
     </div>
   </div>
-<?php endif; ?>
-
-</div> 
+<?php endif; ?> 
 </body>
 </html>

@@ -24,6 +24,9 @@
                     NIM
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Nama
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Role Name
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -44,11 +47,14 @@
                     <?= $row->nim ?>
                 </td>
                 <td class="px-6 py-4">
+                    <?= $row->nama ?>
+                </td>
+                <td class="px-6 py-4">
                     <?= $row->role_name ?>
                 </td>
                 <td class="px-6 py-4 text-right">
                     <a href="<?= base_url('auth/editUser/'.$row->user_id) ?>" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    <a href="<?= base_url('auth/deleteUser/'.$row->user_id) ?>" onclick="if(confirm('Are you sure to delete <?= $row->nim ?>?') === false) event.preventDefault()" title="Delete User" class="ml-4 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                    <a href="<?= base_url('auth/deleteUser/'.$row->user_id) ?>" onclick="if(confirm('Are you sure to delete <?= $row->nama ?>?') === false) event.preventDefault()" title="Delete User" class="ml-4 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
                 </td>
             </tr>
             <?php endforeach; ?>

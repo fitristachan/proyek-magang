@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\usersModel;
+use App\Models\rolesModel;
 
 class Auth extends BaseController
 {
@@ -12,6 +13,7 @@ class Auth extends BaseController
     // Data
     protected $data;
     protected $users_model;
+    protected $roles_model;
  
     // Initialize Objects
     function __construct(){
@@ -19,6 +21,7 @@ class Auth extends BaseController
         $this->data['session'] = $this->session;
         $this->data['request'] = $this->request;
         $this->users_model = new usersModel();
+        $this->roles_model = new rolesModel();
     }
 
     public function index()
@@ -46,7 +49,7 @@ class Auth extends BaseController
                     'logged_in' => TRUE
                 ];
                 $this->session->set($ses_data);
-                $this->session->setFlashdata('success', 'Welcome '.$this->session->nama.'!');
+                $this->session->setFlashdata('info', 'Welcome '.$this->session->nama.'!');
                 return redirect()->to('/home/index');
             } else if ($authenticatePassword == FALSE) {
                 session()->setFlashdata('error', 'Wrong password');
@@ -71,32 +74,49 @@ class Auth extends BaseController
     {
         $this->data['title'] = "Add User";
         $this->data['request'] = $this->request;
-        $this->data['list'] = $this->users_model->orderBy('code_book ASC')->select('*')->getUsersRoles();
+        $this->data['roles'] = $this->roles_model->getAll();
         echo view('templates/header', $this->data);
         echo view('auth/addUser', $this->data);
         echo view('templates/footer', $this->data);
     }
 
     public function saveUser(){
-        $this->data['request'] = $this->request;
         $post = [             
             'nim' => $this->request->getPost('nim'),
-            'role_id' => $this->request->getPost('role_id'),
+            'nama' => $this->request->getPost('nama'),
+            'password'=> password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
+            'role_id' => $this->request->getPost('role_id')
         ];
+
         if(!empty($this->request->getPost('user_id'))){
             $save = $this->users_model->where(['user_id'=>$this->request->getPost('user_id')])->set($post)->update();
         }else{
             if (!$this->validate([
                 'nim' => [
                     'rules' => 'required|min_length[5]|max_length[10]|is_unique[users.user_id]',
-                'errors' => [
-                    'required' => '{field} Must be field',
-                    'min_length' => '{field} Minimum length 5 character',
-                    'max_length' => '{field} Maximum length 10 character',
-                    'is_unique' => 'nim already exists'
+                    'errors' => [
+                        'required' => 'NIM Must be field',
+                        'min_length' => 'Min length 5 character',
+                        'max_length' => 'Max length 10 character',
+                        'is_unique' => 'NIM already exists'
                     ]
                     ],
-                ],
+
+                    'password' => [
+                        'rules' => 'required|min_length[4]|max_length[50]',
+                        'errors' => [
+                            'required' => 'Password Must be field',
+                            'min_length' => 'Min length 4 character',
+                            'max_length' => 'Max length 50 character',
+                        ]
+                    ],
+                    'confirm_password' => [
+                        'rules' => 'matches[password]',
+                        'errors' => [
+                            'matches' => 'Password did not match',
+                        ]
+                        ],
+                ]
                 )) {
                 $this->session->setFlashdata('error', $this->validator->listErrors());
                 return redirect()->back()->withInput();
@@ -104,15 +124,15 @@ class Auth extends BaseController
             $save = $this->users_model->insert($post);}
         if($save){
             if(!empty($this->request->getPost('user_id')))
-            $this->session->setFlashdata('success','Data has been updated successfully') ;
+                $this->session->setFlashdata('success','Data has been updated successfully') ;
             else
-            $this->session->setFlashdata('success','Data has been added successfully') ;
-            $id =!empty($this->request->getPost('user_id')) ? $this->request->getPost('user_id') : $save;
-            return redirect()->to('auth/viewUser');
+                $this->session->setFlashdata('success','Data has been added successfully') ;
+                $id =!empty($this->request->getPost('user_id')) ? $this->request->getPost('user_id') : $save;
+                return redirect()->to('auth/viewUser');
         }else{
             echo view('templates/header', $this->data);
             echo view('auth/addUser', $this->data);
-            echo view('templates/footer');
+            echo view('templates/footer', $this->data);
     }
 }
 
@@ -122,6 +142,8 @@ public function editUser($user_id=''){
         $this->session->setFlashdata('error','Unknown Data ID.') ;
         return redirect()->to('/auth/viewUser');
     }
+    $this->data['roles'] = $this->roles_model->getAll();
+
     $qry= $this->users_model->select('*')->where(['user_id'=>$user_id]);
     $this->data['data'] = $qry->first();
     echo view('templates/header', $this->data);
@@ -136,7 +158,7 @@ public function deleteUser($user_id=''){
     }
     $delete = $this->users_model->delete($user_id);
     if($delete){
-        $this->session->setFlashdata('success','User Details has been deleted successfully.') ;
+        $this->session->setFlashdata('success','User details has been deleted successfully.') ;
         return redirect()->to('/auth/viewUser');
     }
 }
@@ -144,6 +166,7 @@ public function deleteUser($user_id=''){
 public function logout()
 {
     $session = session();
+    session()->setFlashdata('info','See you again!');
     $session->destroy();
     return redirect()->to('/auth/index');
 }

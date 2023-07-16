@@ -134,12 +134,12 @@
           <p  class="p-2 text-xl text-violet-900 dark:text-violet-400 font-bold ml-3">SPK Magang</p>
 
         <div class="p-2 text-violet-900 dark:text-white top-4 right-16">
-          <a href="/home/index" class="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3">Home</a>
-          <?php if ($session->role_id = "1") : ?>
-            <a href="/auth/viewUser" class="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3">Users</a>
-          <?php endif; ?>
-          <a href="/three" class="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3">Decision</a>
-          <a href="/three" class="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3">History</a>
+          <a href="/home/index" class="text-lg no-underline text-grey-darkest hover:text-violet-500">Home</a>
+          <?php if($session->role_id == 1){ ?>
+            <a href="/auth/viewUser" class="text-lg no-underline visible text-grey-darkest hover:text-violet-500 ml-3">Users</a>
+          <?php } ?>
+          <a href="/three" class="text-lg no-underline text-grey-darkest hover:text-violet-500 ml-3">Decision</a>
+          <a href="/three" class="text-lg no-underline text-grey-darkest hover:text-violet-500 ml-3">History</a>
         </div>
       </div>
 
@@ -147,15 +147,13 @@
         <!-- Profile dropdown -->
         <div class="relative ml-3">
           <div>
-            <button type="button" class="flex rounded-full bg-gray-800 text-lg text-violet-900 font-bold focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-expanded="false" aria-haspopup="true" data-dropdown-toggle="dropdown">
+            <button type="button" class="flex rounded-full bg-gray-800 text-lg text-violet-900 font-bold hover:text-violet-700 focus:text-violet-500" aria-expanded="false" aria-haspopup="true" data-dropdown-toggle="dropdown">
               <span class="sr-only">Open user menu</span>
-              Hi, <?php $session->nama; ?>!</button>
+              Hi, <?php echo $session->nama ?>!</button>
           </div>
           <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"  id="dropdown">
             <!-- Active: "bg-gray-100", Not Active: "" -->
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+            <a href="/auth/logout" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
           </div>
 
         </div>

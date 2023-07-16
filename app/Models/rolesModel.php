@@ -4,7 +4,7 @@ namespace App\Models;
  
 use CodeIgniter\Model;
  
-class usersModel extends Model
+class rolesModel extends Model
 {
     // Table
     protected $table = 'roles';
@@ -12,4 +12,10 @@ class usersModel extends Model
     // allowed fields to manage
     protected $allowedFields = ['role_name'];
 
+
+    function getAll(){
+        $builder = $this->db->table('roles');
+        $query = $builder->get();
+        return $query->getResult();
+    }
 }
