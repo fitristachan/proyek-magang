@@ -10,7 +10,7 @@ class usersModel extends Model
     protected $table = 'users';
     protected $primaryKey = "user_id";
     // allowed fields to manage
-    protected $allowedFields = ['nim', 'password', 'role_id'];
+    protected $allowedFields = ['nim', 'nama', 'password', 'role_id'];
 
 
     function getUsersRoles(){

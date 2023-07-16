@@ -41,11 +41,13 @@ class Auth extends BaseController
                 $ses_data=[
                     'user_id' => $dataUser['user_id'],
                     'nim' => $dataUser['nim'],
+                    'nama' => $dataUser['nama'],
                     'role_id' => $dataUser['role_id'],
                     'logged_in' => TRUE
                 ];
-                $session->set($ses_data);
-                return redirect()->to('/home/beranda');
+                $this->session->set($ses_data);
+                $this->session->setFlashdata('success', 'Welcome '.$this->session->nama.'!');
+                return redirect()->to('/home/index');
             } else if ($authenticatePassword == FALSE) {
                 session()->setFlashdata('error', 'Wrong password');
                 return redirect()->to('/auth/index');
@@ -58,19 +60,21 @@ class Auth extends BaseController
 
     public function viewUser()
     {
+        $this->data['title'] = "View Users";
         $this->data['list'] = $this->users_model->orderBy('code_book ASC')->select('*')->getUsersRoles();
-        echo view('templates/header');
+        echo view('templates/header', $this->data);
         echo view('auth/viewUser', $this->data);
-        echo view('templates/footer');
+        echo view('templates/footer', $this->data);
     }
 
     public function addUser()
     {
+        $this->data['title'] = "Add User";
         $this->data['request'] = $this->request;
         $this->data['list'] = $this->users_model->orderBy('code_book ASC')->select('*')->getUsersRoles();
-        echo view('templates/header');
+        echo view('templates/header', $this->data);
         echo view('auth/addUser', $this->data);
-        echo view('templates/footer');
+        echo view('templates/footer', $this->data);
     }
 
     public function saveUser(){
@@ -94,15 +98,15 @@ class Auth extends BaseController
                     ],
                 ],
                 )) {
-                session()->setFlashdata('error_message', $this->validator->listErrors());
+                $this->session->setFlashdata('error', $this->validator->listErrors());
                 return redirect()->back()->withInput();
             }
             $save = $this->users_model->insert($post);}
         if($save){
             if(!empty($this->request->getPost('user_id')))
-            $this->session->setFlashdata('success_message','Data has been updated successfully') ;
+            $this->session->setFlashdata('success','Data has been updated successfully') ;
             else
-            $this->session->setFlashdata('success_message','Data has been added successfully') ;
+            $this->session->setFlashdata('success','Data has been added successfully') ;
             $id =!empty($this->request->getPost('user_id')) ? $this->request->getPost('user_id') : $save;
             return redirect()->to('auth/viewUser');
         }else{
@@ -113,27 +117,35 @@ class Auth extends BaseController
 }
 
 public function editUser($user_id=''){
+    $this->data['title'] = "Edit User";
     if(empty($user_id)){
-        $this->session->setFlashdata('error_message','Unknown Data ID.') ;
+        $this->session->setFlashdata('error','Unknown Data ID.') ;
         return redirect()->to('/auth/viewUser');
     }
     $qry= $this->users_model->select('*')->where(['user_id'=>$user_id]);
     $this->data['data'] = $qry->first();
     echo view('templates/header', $this->data);
     echo view('auth/editUser', $this->data);
-    echo view('templates/footer');
+    echo view('templates/footer',$this->data);
 }
 
 public function deleteUser($user_id=''){
     if(empty($user_id)){
-        $this->session->setFlashdata('error_message','Unknown Data ID') ;
+        $this->session->setFlashdata('error','Unknown Data ID') ;
         return redirect()->to('/auth/viewUser');
     }
     $delete = $this->users_model->delete($user_id);
     if($delete){
-        $this->session->setFlashdata('success_message','User Details has been deleted successfully.') ;
+        $this->session->setFlashdata('success','User Details has been deleted successfully.') ;
         return redirect()->to('/auth/viewUser');
     }
+}
+
+public function logout()
+{
+    $session = session();
+    $session->destroy();
+    return redirect()->to('/auth/index');
 }
 }
 ?>
