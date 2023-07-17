@@ -31,9 +31,27 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 
 $routes->get('/', 'Auth::index');
+$routes->get('/auth/index', 'Auth::index');
+$routes->post('/auth/index', 'Auth::index');
+$routes->get('/auth/login', 'Auth::login');
+$routes->post('/auth/login', 'Auth::login');
+$routes->get('/auth/logout', 'Auth::logout');
+$routes->post('/auth/logout', 'Auth::logout');
  
-$routes->get('/auth/(:any)', 'Auth::$1');
-$routes->post('/auth/(:any)', 'Auth::$1');
+$routes->get('/auth/addUser', 'Auth::addUser',['filter' => 'authGuard']);
+$routes->post('/auth/addUser', 'Auth::addUser',['filter' => 'authGuard']);
+$routes->get('/auth/editUser', 'Auth::editUser',['filter' => 'authGuard']);
+$routes->post('/auth/editUser', 'Auth::editUser',['filter' => 'authGuard']);
+$routes->get('/auth/editUser/(:any)', 'Auth::editUser/$1',['filter' => 'authGuard']);
+$routes->post('/auth/editUser/(:any)', 'Auth::editUser/$1',['filter' => 'authGuard']);
+$routes->get('/auth/viewUser', 'Auth::viewUser',['filter' => 'authGuard']);
+$routes->post('/auth/viewUser', 'Auth::viewUser',['filter' => 'authGuard']);
+$routes->get('/auth/saveUser', 'Auth::saveUser',['filter' => 'authGuard']);
+$routes->post('/auth/saveUser', 'Auth::saveUser',['filter' => 'authGuard']);
+$routes->get('/auth/deleteUser', 'Auth::deleteUser',['filter' => 'authGuard']);
+$routes->post('/auth/deleteUser', 'Auth::deleteUser',['filter' => 'authGuard']);
+$routes->get('/auth/deleteUser/(:any)', 'Auth::deleteUser/$1',['filter' => 'authGuard']);
+$routes->post('/auth/deleteUser/(:any)', 'Auth::deleteUser/$1',['filter' => 'authGuard']);
 
 
 
@@ -51,8 +69,8 @@ $routes->post('/auth/(:any)', 'Auth::$1');
  * needing to reload it.
  */
 //home
-$routes->get('/home/(:any)', 'Home::$1');
-$routes->post('/home/(:any)', 'Home::$1');
+$routes->get('/home/(:any)', 'Home::$1', ['filter' => 'authGuard']);
+$routes->post('/home/(:any)', 'Home::$1',['filter' => 'authGuard']);
 //,['filter' => 'authGuard']
 
 $routes->get("/spk/", "SPK::index");

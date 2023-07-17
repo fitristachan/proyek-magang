@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\usersModel;
 use App\Models\rolesModel;
+use CodeIgniter\I18n\Time;
 
 class Auth extends BaseController
 {
@@ -44,12 +45,12 @@ class Auth extends BaseController
                 $ses_data=[
                     'user_id' => $dataUser['user_id'],
                     'nim' => $dataUser['nim'],
-                    'nama' => $dataUser['nama'],
-                    'role_id' => $dataUser['role_id'],
+                    'name' => $dataUser['name'],
+                    'id' => $dataUser['role_id'],
                     'logged_in' => TRUE
                 ];
                 $this->session->set($ses_data);
-                $this->session->setFlashdata('info', 'Welcome '.$this->session->nama.'!');
+                $this->session->setFlashdata('info', 'Welcome '.$this->session->name.'!');
                 return redirect()->to('/home/index');
             } else if ($authenticatePassword == FALSE) {
                 session()->setFlashdata('error', 'Wrong password');
@@ -81,24 +82,19 @@ class Auth extends BaseController
     }
 
     public function saveUser(){
-        $post = [             
-            'nim' => $this->request->getPost('nim'),
-            'nama' => $this->request->getPost('nama'),
-            'password'=> password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
-            'role_id' => $this->request->getPost('role_id')
-        ];
+        $myTime = Time::now('Asia/Jakarta', 'en_US');
 
         if(!empty($this->request->getPost('user_id'))){
-            $save = $this->users_model->where(['user_id'=>$this->request->getPost('user_id')])->set($post)->update();
-        }else{
+
             if (!$this->validate([
                 'nim' => [
-                    'rules' => 'required|min_length[5]|max_length[10]|is_unique[users.user_id]',
+                    'rules' => 'required|min_length[5]|max_length[10]|is_unique[users.nim,users.user_id,'.$this->request->getPost('user_id').']|numeric',
                     'errors' => [
                         'required' => 'NIM Must be field',
-                        'min_length' => 'Min length 5 character',
-                        'max_length' => 'Max length 10 character',
-                        'is_unique' => 'NIM already exists'
+                        'min_length' => 'Min NIM length 5 character',
+                        'max_length' => 'Max NIM length 10 character',
+                        'is_unique' => 'NIM already exists',
+                        'numeric' => 'NIM must be numeric'
                     ]
                     ],
 
@@ -106,8 +102,8 @@ class Auth extends BaseController
                         'rules' => 'required|min_length[4]|max_length[50]',
                         'errors' => [
                             'required' => 'Password Must be field',
-                            'min_length' => 'Min length 4 character',
-                            'max_length' => 'Max length 50 character',
+                            'min_length' => 'Min Password length 4 character',
+                            'max_length' => 'Max Password length 50 character',
                         ]
                     ],
                     'confirm_password' => [
@@ -121,6 +117,53 @@ class Auth extends BaseController
                 $this->session->setFlashdata('error', $this->validator->listErrors());
                 return redirect()->back()->withInput();
             }
+            $post = [             
+                'nim' => $this->request->getPost('nim'),
+                'password'=> password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
+                'updated_at' => $myTime,
+                'name' => $this->request->getPost('name'),
+                'role_id' => $this->request->getPost('id')
+            ];
+            $save = $this->users_model->where(['user_id'=>$this->request->getPost('user_id')])->set($post)->update();
+        }else{
+            if (!$this->validate([
+                'nim' => [
+                    'rules' => 'required|min_length[5]|max_length[10]|is_unique[users.nim]|numeric',
+                    'errors' => [
+                        'required' => 'NIM Must be field',
+                        'min_length' => 'Min NIM length 5 character',
+                        'max_length' => 'Max NIM length 10 character',
+                        'is_unique' => 'NIM already exists',
+                        'numeric' => 'NIM must be numeric'
+                    ]
+                    ],
+
+                    'password' => [
+                        'rules' => 'required|min_length[4]|max_length[50]',
+                        'errors' => [
+                            'required' => 'Password Must be field',
+                            'min_length' => 'Min Password length 4 character',
+                            'max_length' => 'Max Password length 50 character',
+                        ]
+                    ],
+                    'confirm_password' => [
+                        'rules' => 'matches[password]',
+                        'errors' => [
+                            'matches' => 'Password did not match',
+                        ]
+                        ],
+                ]
+                )) {
+                $this->session->setFlashdata('error', $this->validator->listErrors());
+                return redirect()->back()->withInput();
+            }
+            $post = [             
+                'nim' => $this->request->getPost('nim'),
+                'password'=> password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
+                'created_at' => $myTime,
+                'name' => $this->request->getPost('name'),
+                'role_id' => $this->request->getPost('id')
+            ];
             $save = $this->users_model->insert($post);}
         if($save){
             if(!empty($this->request->getPost('user_id')))
@@ -143,7 +186,7 @@ public function editUser($user_id=''){
         return redirect()->to('/auth/viewUser');
     }
     $this->data['roles'] = $this->roles_model->getAll();
-
+    $this->data['rolePick'] = $this->users_model->select("*")->where(['user_id'=>$user_id])->join('roles', 'roles.id = users.role_id', 'LEFT')->first();
     $qry= $this->users_model->select('*')->where(['user_id'=>$user_id]);
     $this->data['data'] = $qry->first();
     echo view('templates/header', $this->data);
