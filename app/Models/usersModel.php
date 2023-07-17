@@ -1,11 +1,12 @@
 <?php
-
+ 
 namespace App\Models;
-
+ 
 use CodeIgniter\Model;
-
-class UserModel extends Model
+ 
+class usersModel extends Model
 {
+
     protected $DBGroup          = 'default';
     protected $table            = 'users';
     protected $primaryKey       = 'user_id';
@@ -13,9 +14,10 @@ class UserModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['password', 'created_at', 'updated_at', 'role_id'];
+    // allowed fields to manage
+    protected $allowedFields = ['nim', 'name', 'password', 'created_at', 'updated_at', 'role_id'];
 
-    // Dates
+  // Dates
     protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
@@ -39,8 +41,11 @@ class UserModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getRole()
-    {
-        return $this->belongsTo(RoleModel::class, 'role_id', 'id');
+
+    function getUsersRoles(){
+        $builder = $this->db->table('users');
+        $builder->join('roles', 'roles.id = users.role_id');
+        $query = $builder->get();
+        return $query->getResult();
     }
 }

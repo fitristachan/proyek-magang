@@ -32,7 +32,15 @@ class CreateInitialTables extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
+            'nim' => [
+                'type' => 'INT',
+                'constraint' => 10,
+            ],
             'password' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+            ],
+            'name' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
