@@ -1,72 +1,164 @@
 <!doctype html>
-<html>
+<html class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="/css/app.css" rel="stylesheet">
+
+  <title>Login</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
-  <!--
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
-<!--
-  This example requires updating your template:
-
-  ```
-  <html class="h-full bg-white">
-  <body class="h-full">
-  ```
--->
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
-    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
-  </div>
-
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form class="space-y-6" action="#" method="POST">
-      <div>
-        <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
-        <div class="mt-2">
-          <input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-        </div>
+<section class="h-screen">
+  <div class="container h-full px-6 py-24">
+    <div
+      class="g-6 flex h-full flex-wrap items-center justify-center">
+      <!-- Left column container with background-->
+      <div class="ml-30 mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
+        <img
+          src="/assets/5190703.png"
+          class="w-50"
+          alt="intern image" />
       </div>
 
-      <div>
-        <div class="flex items-center justify-between">
-          <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-          <div class="text-sm">
-            <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+      <!-- Right column container with form -->
+      <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
+      <h1 class="mb-12 text-center text-3xl text-violet-900 dark:text-white font-bold leading-9 tracking-tight text-gray-900">
+        SPK Magang</h1>
+
+        <form method="post" action="<?= base_url('/auth/login'); ?>">
+                <?= csrf_field(); ?>
+          <!-- nim input -->
+          <div class="relative mb-12" data-te-input-wrapper-init>
+            <input
+              type="text"
+              class="peer block min-h-[auto] w-full rounded border bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-violet-900 transition-all duration-200 ease-linear"
+              id="nim"
+              name="nim"
+              required="required"
+              placeholder="NIM" />
+            <label
+              for="nim"
+              class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] invisible transition-all duration-200 ease-out peer-focus:visible peer-focus:-translate-x-3 peer-focus:-translate-y-[2rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+              >NIM
+            </label>
           </div>
-        </div>
-        <div class="mt-2">
-          <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-        </div>
-      </div>
 
-      <div>
-        <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
-      </div>
-    </form>
+          <!-- Password input -->
+          <div class="relative mb-12" data-te-input-wrapper-init>
+            <input
+              type="password"
+              class="peer block min-h-[auto] w-full rounded border bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-violet-900 transition-all duration-200 ease-linear"
+              id="password"
+              name="password"
+              required="required"
+              placeholder="Password" />
+            <label
+              for="password"
+              class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] invisible transition-all duration-200 ease-out peer-focus:visible peer-focus:-translate-x-3 peer-focus:-translate-y-[2rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[2.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+              >Password
+            </label>
+          </div>
 
-    <p class="mt-10 text-center text-sm text-gray-500">
-      Not a member?
-      <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</a>
-    </p>
+          <!-- Submit button -->
+          <button
+            type="submit"
+            id="login"
+            class="inline-block w-full rounded bg-violet-900 px-7 pb-2.5 pt-3 mb-12 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-violet-500 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-violet-500 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-violet-500 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+            data-te-ripple-init
+            data-te-ripple-color="light">
+            Login
+          </button>
+          </div>
+        </form>
+      </div>
+      <!-- toast-->
+<?php if (!empty(session()->getFlashdata('success'))) : ?>
+ <!--success message-->
+ <div x-data="{ nofifiction: true }" class="fixed bottom-2 right-2">
+    <div x-show="nofifiction" x-transition class="flex items-center justify-between max-w-xs p-4 bg-white border rounded-md shadow-sm">
+    <div class="flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd"
+        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+        clip-rule="evenodd" />
+      </svg>
+        <p class="ml-3 text-sm font-bold text-green-600"><?php echo session()->getFlashdata('success'); ?></p>
+    </div>
+    <span @click="nofifiction=false;" class="inline-flex items-center cursor-pointer ml-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </span>
+    </div>
   </div>
-</div>
+  <?php endif; ?>
 
-  </h1>
+<?php if (!empty(session()->getFlashdata('warning'))) : ?>
+   <!--warning message-->
+   <div x-data="{ nofifiction: true }" class="fixed bottom-2 right-2">
+    <div x-show="nofifiction" x-transition class="flex items-center justify-between max-w-xs p-4 bg-white border rounded-md shadow-sm">
+    <div class="flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-yellow-600" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd"
+        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+        clip-rule="evenodd" />
+      </svg>
+        <p class="ml-3 text-sm font-bold text-yellow-600"><?php echo session()->getFlashdata('warning'); ?></p>
+    </div>
+    <span @click="nofifiction=false;" class="inline-flex items-center cursor-pointer ml-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </span>
+    </div>
+  </div>
+  <?php endif; ?>
+
+  <?php if (!empty(session()->getFlashdata('info'))) : ?>
+  <!--info message-->
+  <div x-data="{ nofifiction: true }" class="fixed bottom-2 right-2">
+    <div x-show="nofifiction" x-transition class="flex items-center justify-between max-w-xs p-4 bg-white border rounded-md shadow-sm">
+    <div class="flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd"
+        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+        clip-rule="evenodd" />
+      </svg>
+        <p class="ml-3 text-sm font-bold text-blue-600"><?php echo session()->getFlashdata('info'); ?></p>
+    </div>
+    <span @click="nofifiction=false;" class="inline-flex items-center cursor-pointer ml-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </span>
+    </div>
+  </div>
+  <?php endif; ?>
+
+
+  <?php if (!empty(session()->getFlashdata('error'))) : ?>
+  <!--error message-->
+  <div x-data="{ nofifiction: true }" class="fixed bottom-2 right-2">
+    <div x-show="nofifiction" x-transition class="flex items-center justify-between max-w-xs p-4 bg-white border rounded-md shadow-sm">
+    <div class="flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+    ` </svg>
+        <p class="ml-3 text-sm font-bold text-red"><?php echo session()->getFlashdata('error'); ?></p>
+    </div>
+    <span @click="nofifiction=false;" class="inline-flex items-center cursor-pointer ml-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </span>
+    </div>
+  </div>
+<?php endif; ?> 
+    </div>
+  </div>
+</section>
 </body>
 </html>
