@@ -20,7 +20,9 @@ class InitialDataSeeder extends Seeder
 
         // Insert admin user
         $adminUser = [
+            'nim' => 2107411039,
             'password' => password_hash('admin', PASSWORD_DEFAULT),
+            'name' => "Fitri Sagita",
             'role_id' => 1, // Assuming 'admin' role has id 1
         ];
         $this->db->table('users')->insert($adminUser);

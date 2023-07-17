@@ -7,8 +7,8 @@
 	<title><?php echo $title?></title>
   
   <link href="/css/app.css" rel="stylesheet">
-
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="https://unpkg.com/@themesberg/flowbite@latest/dist/flowbite.bundle.js"></script>
 </head>
@@ -24,7 +24,7 @@
         >
           Loading.....
         </div>
-
+ 
         <!-- Sidebar -->
         <div
           x-transition:enter="transform transition-transform duration-300"
@@ -90,7 +90,7 @@
                 </svg>
                 <span>Home</span>
               </a>
-              <?php if($session->role_id == 1){ ?>
+              <?php if($session->id == 1){ ?>
               <a href="/auth/viewUser" class="flex items-center space-x-4 mt-4">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
@@ -137,8 +137,8 @@
 
   <!-- navbar-->
   <nav class="bg-gray-100">
-    <div class="relative flex h-16">
-      <div class="absolute inset-y-0 left-5 flex items-center sm:hidden">
+    <div class="relative flex h-16 visible">
+      <div class="absolute inset-y-0 left-5 flex items-center visible">
         <button @click="isSidebarOpen = true" class="p-2 text-white bg-violet-500 rounded-lg">
             <svg
               class="w-6 h-6"
@@ -154,32 +154,33 @@
           <p  class="p-2 text-xl text-violet-900 dark:text-violet-400 font-bold ml-3">SPK Magang</p>
 
         <div class="p-2 text-violet-900 dark:text-white top-4 right-16">
-          <a href="/home/index" class="text-lg no-underline text-grey-darkest hover:text-violet-500">Home</a>
-          <?php if($session->role_id == 1){ ?>
-            <a href="/auth/viewUser" class="text-lg no-underline visible text-grey-darkest hover:text-violet-500 ml-3">Users</a>
+          <a href="/home/index" class="text-lg no-underline text-violet-900 hover:text-violet-500">Home</a>
+          <?php if($session->id == 1){ ?>
+            <a href="/auth/viewUser" class="text-lg no-underline visible text-violet-900 hover:text-violet-500 ml-3">Users</a>
           <?php } ?>
-          <a href="/three" class="text-lg no-underline text-grey-darkest hover:text-violet-500 ml-3">Decision</a>
-          <a href="/three" class="text-lg no-underline text-grey-darkest hover:text-violet-500 ml-3">History</a>
+          <a href="/three" class="text-lg no-underline text-violet-900hover:text-violet-500 ml-3">Decision</a>
+          <a href="/three" class="text-lg no-underline text-violet-900 hover:text-violet-500 ml-3">History</a>
         </div>
+
       </div>
 
-      <div class="absolute inset-y-0 right-10 flex items-center sm:hidden">
+
+
+      <div class="absolute inset-y-0 right-10 flex items-center visible">
         <!-- Profile dropdown -->
-        <div class="relative ml-3">
           <div>
-            <button type="button" class="flex rounded-full bg-gray-800 text-lg text-violet-900 font-bold hover:text-violet-700 focus:text-violet-500" aria-expanded="false" aria-haspopup="true" data-dropdown-toggle="dropdown">
+            <button type="button" class="flex rounded-full text-lg text-violet-900 font-bold hover:text-violet-700 focus:text-violet-500" aria-expanded="false" aria-haspopup="true" data-dropdown-toggle="dropdown">
               <span class="sr-only">Open user menu</span>
-              Hi, <?php echo $session->nama ?>!</button>
+              Hi, <?php echo $session->name ?>!</button>
           </div>
           <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"  id="dropdown">
             <!-- Active: "bg-gray-100", Not Active: "" -->
             <a href="/auth/logout" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
           </div>
-
         </div>
       </div>
-      </div>
-          </nav>
+
+    </nav>
       
 <main class="flex flex-col flex-1 pt-2 pl-10 pr-4 bg-white">
    

@@ -36,10 +36,10 @@
                                  </div>
                              <input
                                 type="text"
-                                name="nama"
-                                id="nama"
+                                name="name"
+                                id="name"
                                 class="w-10/12 focus:outline-none focus:text-black p-2"
-                                value="<?= isset($data['nama']) ? $data['nama'] : '' ?>" 
+                                value="<?= isset($data['name']) ? $data['name'] : '' ?>" 
                                 placeholder="User Full Name" 
                                 required="required"
                               />
@@ -83,10 +83,10 @@
                   </svg>
                   </div>
 
-                  <select class="w-10/12 focus:outline-none focus:text-black p-2"  name="role_id" id="role_id" required>
-                  <option value="" hidden>---Choose Role Name--- </option>
+                  <select class="w-10/12 focus:outline-none focus:text-black p-2" value="<?= isset($rolePick['role_name']) ? $rolePick['role_name'] : '' ?>" name="id" id="id" required>
+                  <option value="<?= isset($rolePick['role_id']) ? $rolePick['role_id'] : '' ?>" hidden><?= isset($rolePick['role_name']) ? $rolePick['role_name'] : '' ?></option>
                   <?php foreach ($roles as $key => $value): ?>
-                        <option value="<?= $value->role_id?>"><?= $value->role_name?></option>
+                        <option value="<?= $value->id?>"><?= $value->role_name?></option>
                     <?php endforeach?>
                 </select>
                 </div>
@@ -165,11 +165,13 @@
         </div>
 
         <div class="pb-12 pt-4 items-center justify-between sm:text-center">
-        <button class="text-white text-l bg-violet-700 hover:bg-violet-800 focus:ring-4 focus:outline-none focus:ring-violet-300 font-bold rounded-lg px-4 py-2 text-center mr-3 md:mr-0 dark:bg-violet-600 dark:hover:bg-violet-700 dark:focus:ring-violet-800"
+        <a href="/auth/viewUser" class="text-white text-l bg-violet-800 hover:bg-violet-600 focus:ring-4 focus:outline-none focus:ring-violet-300 font-bold rounded-lg px-4 py-[0.60rem] text-center mr-3 md:mr-0 dark:bg-violet-600 dark:hover:bg-violet-700 dark:focus:ring-violet-800"
+          >Back</a>
+        <button class="text-white text-l bg-green-800 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-violet-300 font-bold rounded-lg px-4 py-2 text-center mr-3 md:mr-0 dark:bg-violet-600 dark:hover:bg-violet-700 dark:focus:ring-violet-800"
             type="submit"
-            id="editUser">Edit User</button>
-        </div>
+            id="addUser">Edit User</button>
         </form>
+        </div>
     </div>
 </section>
    
