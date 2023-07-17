@@ -13,6 +13,9 @@
     <a href="<?= $pdfUrl ?>" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
       Generate PDF
     </a>
+    <a href="<?= base_url('spk/history') ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      View History
+    </a>
   </div>
 
   <div class="overflow-x-auto">
