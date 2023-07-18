@@ -75,7 +75,7 @@ $routes->get('/generate-pdf', 'SPK::generatePDF',['filter' => 'authGuard']);
 $routes->get('/spk/history', 'History::index',['filter' => 'authGuard']);
 
 //spk
-$routes->get("/spk/", "SPK::index",['filter' => 'authGuard']);
+$routes->get("/spk", "SPK::index",['filter' => 'authGuard']);
 $routes->post('/spk/submit', 'SPK::submit_alternative',['filter' => 'authGuard']);
 $routes->get('/nextpage', 'SPK::index',['filter' => 'authGuard']);
 $routes->get('/spk/result/(:num)', 'SPK::result/$1',['filter' => 'authGuard']);
