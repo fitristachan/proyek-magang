@@ -1,13 +1,3 @@
-<!doctype html>
-<html>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
-</head>
-
-<body class="bg-gray-100">
     <div class="container mx-auto p-8">
         <h1 class="text-center text-2xl font-bold leading-9 text-gray-900 mb-8">History</h1>
     </div>
@@ -55,6 +45,3 @@
             </tbody>
         </table>
     </div>
-</body>
-
-</html>

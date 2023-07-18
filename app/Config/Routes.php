@@ -71,14 +71,14 @@ $routes->get('/home/(:any)', 'Home::$1', ['filter' => 'authGuard']);
 $routes->post('/home/(:any)', 'Home::$1',['filter' => 'authGuard']);
 
 //print dan history
-$routes->get('/generate-pdf', 'SPK::generatePDF');
-$routes->get('/spk/history', 'History::index');
+$routes->get('/generate-pdf', 'SPK::generatePDF',['filter' => 'authGuard']);
+$routes->get('/spk/history', 'History::index',['filter' => 'authGuard']);
 
 //spk
-$routes->get("/spk/", "SPK::index");
-$routes->post('/spk/submit', 'SPK::submit_alternative');
-$routes->get('/nextpage', 'SPK::index');
-$routes->get('/spk/result/(:num)', 'SPK::result/$1');
+$routes->get("/spk/", "SPK::index",['filter' => 'authGuard']);
+$routes->post('/spk/submit', 'SPK::submit_alternative',['filter' => 'authGuard']);
+$routes->get('/nextpage', 'SPK::index',['filter' => 'authGuard']);
+$routes->get('/spk/result/(:num)', 'SPK::result/$1',['filter' => 'authGuard']);
 
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';

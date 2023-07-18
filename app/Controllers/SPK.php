@@ -10,9 +10,24 @@ use Dompdf\Dompdf;
 class SPK extends BaseController
 {
 
+    // Session
+    protected $session;
+    // Data
+    protected $data;
+ 
+    // Initialize Objects
+    function __construct(){
+        $this->session= \Config\Services::session();
+        $this->data['session'] = $this->session;
+        $this->data['request'] = $this->request;
+    }
+
     public function index()
     {
+        $this->data['title'] = "Form Input";
+        echo view('templates/header', $this->data);
         echo view('decision/form_input');
+        echo view('templates/footer', $this->data);
     }
 
     public function submit_alternative()
@@ -113,7 +128,10 @@ class SPK extends BaseController
 
         $pdfUrl = site_url("generate-pdf?id=$id");
 
-        return view('decision/form_output', compact('data', 'hasil', 'pdfUrl'));
+        $this->data['title'] = "Decision Result";
+        echo view('templates/header', $this->data);
+        echo view('decision/form_output', compact('data', 'hasil', 'pdfUrl'));
+        echo view('templates/footer', $this->data);
     }
 
     public function generatePDF($id = null)
