@@ -29,7 +29,6 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-
 $routes->get('/', 'Auth::index');
 $routes->get('/auth/index', 'Auth::index');
 $routes->post('/auth/index', 'Auth::index');
@@ -54,7 +53,6 @@ $routes->get('/auth/deleteUser/(:any)', 'Auth::deleteUser/$1',['filter' => 'auth
 $routes->post('/auth/deleteUser/(:any)', 'Auth::deleteUser/$1',['filter' => 'authGuard']);
 
 
-
 /*
  * --------------------------------------------------------------------
  * Additional Routing
@@ -71,8 +69,12 @@ $routes->post('/auth/deleteUser/(:any)', 'Auth::deleteUser/$1',['filter' => 'aut
 //home
 $routes->get('/home/(:any)', 'Home::$1', ['filter' => 'authGuard']);
 $routes->post('/home/(:any)', 'Home::$1',['filter' => 'authGuard']);
-//,['filter' => 'authGuard']
 
+//print dan history
+$routes->get('/generate-pdf', 'SPK::generatePDF');
+$routes->get('/spk/history', 'History::index');
+
+//spk
 $routes->get("/spk/", "SPK::index");
 $routes->post('/spk/submit', 'SPK::submit_alternative');
 $routes->get('/nextpage', 'SPK::index');
