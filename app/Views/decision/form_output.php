@@ -10,11 +10,8 @@
 <body class="bg-gray-100">
   <div class="container mx-auto p-8">
     <h1 class="text-center text-2xl font-bold leading-9 text-gray-900 mb-8">Rekap Perhitungan Magang</h1>
-    <a href="<?= $pdfUrl ?>" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <a href="<?= $pdfUrl ?>" target="_blank" class="bg-violet-600 hover:bg-violet-500 text-white font-bold py-2 px-4 rounded">
       Generate PDF
-    </a>
-    <a href="<?= base_url('spk/history') ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-      View History
     </a>
   </div>
 

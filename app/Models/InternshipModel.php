@@ -38,4 +38,18 @@ class InternshipModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    public function getIntershipsByUserId($user_id)
+    {
+        return $this->select('internships.internship_id as inter_id, internships.name as internship_name, salary, distance, work_hour, transport_fee')
+                ->join('alternative_bind', 'alternative_bind.internship_id = internships.internship_id')
+                ->join('calculations as c', 'c.calculation_id = alternative_bind.calculation_id')
+                ->join('users', 'users.user_id = c.user_id')
+                ->where('users.user_id', $user_id)
+                ->groupBy('internships.internship_id') 
+                ->findAll();
+    }
+    public function getInternshipById($internship_id)
+    {
+        return $this->find($internship_id);
+    }
 }

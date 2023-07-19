@@ -7,7 +7,7 @@
         </nav>
 
         <div class="min-w-0 flex-1 px-4 py-4">
-            <hr class="border-t-4 border-violet-500 opacity-100 dark:opacity-50 "></hr>
+            <hr class="border-t-4 border-violet-500 opacity-100 "></hr>
         </div>
 
         <form method="post" action="<?= base_url('/auth/saveUser'); ?>">
@@ -167,9 +167,9 @@
         </div>
 
         <div class="pb-12 pt-4 items-center justify-between sm:text-center">
-        <a href="/auth/viewUser" class="text-white text-l bg-violet-800 hover:bg-violet-600 focus:ring-4 focus:outline-none focus:ring-violet-300 font-bold rounded-lg px-4 py-[0.60rem] text-center mr-3 md:mr-0 dark:bg-violet-600 dark:hover:bg-violet-700 dark:focus:ring-violet-800"
+        <a href="/auth/viewUser" class="text-white text-l bg-violet-800 hover:bg-violet-600 focus:ring-4 focus:outline-none focus:ring-violet-300 font-bold rounded-lg px-4 py-[0.60rem] text-center mr-3 md:mr-0"
           >Back</a>
-        <button class="text-white text-l bg-green-800 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-violet-300 font-bold rounded-lg px-4 py-2 text-center mr-3 md:mr-0 dark:bg-violet-600 dark:hover:bg-violet-700 dark:focus:ring-violet-800"
+        <button class="text-white text-l bg-green-800 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-violet-300 font-bold rounded-lg px-4 py-2 text-center mr-3 md:mr-0"
             type="submit"
             id="addUser">Add User</button>
         </form>

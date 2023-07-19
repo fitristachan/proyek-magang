@@ -37,6 +37,7 @@ $routes->post('/auth/login', 'Auth::login');
 $routes->get('/auth/logout', 'Auth::logout');
 $routes->post('/auth/logout', 'Auth::logout');
  
+$routes->get('internship/getInternshipById/(:num)', 'SPK::getInternshipById/$1');
 $routes->get('/auth/addUser', 'Auth::addUser',['filter' => 'authGuard']);
 $routes->post('/auth/addUser', 'Auth::addUser',['filter' => 'authGuard']);
 $routes->get('/auth/editUser', 'Auth::editUser',['filter' => 'authGuard']);
