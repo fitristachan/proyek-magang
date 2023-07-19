@@ -22,9 +22,12 @@
 
         <!-- Add New Alternative button -->
         <select name="alternatives-selector" id="alternatives-selector" class="w-full mr-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" onchange="toggleNewAlternative(this)">
-            <option value="" disabled selected>Select an alternative or create a new one</option>
+            <option value="none" disabled selected>Select an alternative or create a new one</option>
             <option value="NewItem">Add New Item</option>
-            <option value="Alt1">Alt A</option>
+            <?php foreach($internships as $internship):?>
+                <option value=<?=$internship['inter_id']?>><?= $internship['internship_name']?></option>
+                
+                <?php endforeach;?>
         </select>
 
         <!-- New alternative input (hidden by default) -->
@@ -49,10 +52,10 @@
 
         </div>
         <div class="mt-4">
-            <button id="add-alternative-button" class="justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Alternative</button>
+            <button id="add-alternative-button" class="justify-center rounded-md bg-violet-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Alternative</button>
 
             <!-- Submit button -->
-            <button id="submit-button" class="justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+            <button id="submit-button" class="justify-center rounded-md bg-violet-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
         </div>
     </div>
 </body>
@@ -94,10 +97,10 @@
         }
         if (selectElem.value == 'NewItem') {
             const altName = alternativeNameInput.value;
-            const altSalary = alternativeCriteriaSalary.value == "" ? 0 : alternativeCriteriaSalary.value;
-            const altDistance = alternativeCriteriaDistance.value == "" ? 0 : alternativeCriteriaDistance.value;
-            const altWorkhour = alternativeCriteriaWorkhour.value == "" ? 0 : alternativeCriteriaWorkhour.value;
-            const altTransport = alternativeCriteriaTransport.value == "" ? 0 : alternativeCriteriaTransport.value;
+            const altSalary = alternativeCriteriaSalary.value == "" || null ? 0 : alternativeCriteriaSalary.value;
+            const altDistance = alternativeCriteriaDistance.value == "" || null ? 0 : alternativeCriteriaDistance.value;
+            const altWorkhour = alternativeCriteriaWorkhour.value == "" || null ? 0 : alternativeCriteriaWorkhour.value;
+            const altTransport = alternativeCriteriaTransport.value == "" || null ? 0 : alternativeCriteriaTransport.value;
             altDatas.newAlts.push({
                 name: altName,
                 salary: altSalary,
@@ -127,12 +130,47 @@
             alternativeCriteriaTransport.value = "";
 
         }
-        selectElement.value = '';
+        else{
+            var id = selectElem.value;
+            altDatas.existingAlts.push(id);
+
+            var data = "";
+
+            var altName = "";
+            var altSalary = 0;
+            var altDistance = 0;
+            var altWorkHour = 0;
+            var altTransport = 0;
+            fetch(`/internship/getInternshipById/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Use the fetched data to populate the table
+                    altName = data.name;
+                    altSalary = data.salary;
+                    altDistance = data.distance;
+                    altWorkHour = data.work_hour;
+                    altTransport = data.transport_fee;
+                    const newAlt = document.createElement('tr');
+                    newAlt.innerHTML =
+                        `<td>${altName}</td>
+                    <td>Rp${altSalary}</td>
+                    <td>${altDistance} km</td>
+                    <td>${altWorkHour} jam per hari</td>
+                    <td>Rp${altTransport}</td>
+                    `;
+                    alternativesList.appendChild(newAlt);
+                })
+                .catch(error => {
+                    console.error('Error fetching internship data:', error);
+                    alert("failed to get the data");
+                });
+
+
+        }
 
 
     });
     document.getElementById('submit-button').addEventListener('click', () => {
-        alert(JSON.stringify(altDatas));
         fetch('/spk/submit', {
                 method: 'POST',
                 headers: {
@@ -143,11 +181,9 @@
             .then(response => {
                 // Handle the response from the server
                 if (response.ok) {
-                    alert("Server Received Data!");
                     response.json().then(
                         data => {
-                            alert(data.data)
-                            window.location.href = "spk/result/" + data.calcID;
+                            window.location.href = "spk/result/" + data.data;
                         }
 
                     );

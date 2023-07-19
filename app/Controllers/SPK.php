@@ -5,11 +5,12 @@ namespace App\Controllers;
 use App\Models\InternshipModel;
 use App\Models\CalculationModel;
 use App\Models\AlternativeBindModel;
+use CodeIgniter\API\ResponseTrait;
 use Dompdf\Dompdf;
 
 class SPK extends BaseController
 {
-
+    use ResponseTrait;
     // Session
     protected $session;
     // Data
@@ -25,8 +26,13 @@ class SPK extends BaseController
     public function index()
     {
         $this->data['title'] = "Form Input";
+        $model = new InternshipModel();
+        $uid = $this->session->user_id; //REPLACE SOON
+        $inputdata = [];
+        $inputdata['internships'] = $model->getIntershipsByUserId($uid);
+        
         echo view('templates/header', $this->data);
-        echo view('decision/form_input');
+        echo view('decision/form_input', $inputdata);
         echo view('templates/footer', $this->data);
     }
 
@@ -37,9 +43,8 @@ class SPK extends BaseController
         // Decode the JSON data into an associative array
         $data = json_decode($json, true);
         //Ambil new data
-        $test = "";
         $newAlts = $data['newAlts'];
-        $altIDS = [];
+        $altIDS = $data['existingAlts'];
         foreach ($newAlts as $alt) {
             $internshipModel = new InternshipModel();
             $d = [
@@ -54,7 +59,7 @@ class SPK extends BaseController
         }
         $calculationModel = new CalculationModel();
         $d = [
-            'user_id' => 1,
+            'user_id' => $this->session->user_id,
         ];
         $calculationModel->insert($d);
         $calcID = $calculationModel->getInsertID();
@@ -68,7 +73,8 @@ class SPK extends BaseController
         }
 
         $out = $calcID;
-        return $this->response->setJSON(['success' => true, 'calcID' => 1, 'data' => $out]);
+        $this->session->setFlashdata('success', 'Calculations Done Successfully!');
+        return $this->response->setJSON(['success' => true, 'data' => $out]);
     }
 
     public function result($id = null)
@@ -205,4 +211,17 @@ class SPK extends BaseController
         // Output the generated PDF to the browser
         $dompdf->stream('form_output.pdf', ['Attachment' => false]);
     }
+    public function getInternshipById($internship_id)
+    {
+        $internshipModel = new InternshipModel();
+        $internship = $internshipModel->getInternshipById($internship_id);
+
+        if ($internship) {
+            return $this->respond($internship); // Respond with JSON data containing the internship details.
+        } else {
+            $this->session->setFlashdata('error', 'Internship not found');
+            return $this->failNotFound('Internship not found.'); // Respond with an error status if the internship is not found.
+        }
+    }
+
 }

@@ -23,7 +23,7 @@ class History extends BaseController
     {
         $this->data['title'] = "History";
         $historyModel = new HistoryModel();
-        $userId = 1; // Replace '1' with the actual user ID
+        $userId = $this->session->user_id; // Replace '1' with the actual user ID
         $calculations = $historyModel->getCalculationsWithInternships($userId);
 
         echo view('templates/header', $this->data);
